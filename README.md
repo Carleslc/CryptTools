@@ -13,7 +13,6 @@ _These tools are designed to be useful in the field of computer security and the
 pip3 install numpy
 pip3 install pyenchant
 ```
-4. _Ready!_
 
 ## Tools available
 
