@@ -28,7 +28,7 @@ pip3 install pyenchant
 
 ```
 usage: scytale.py [-h] [-t TEXT] [-k KEY] [-l LANG] [-V] [-A] [-D]
-                  [-T THRESHOLD]
+                  [-T THRESHOLD] [--beep]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -46,6 +46,8 @@ optional arguments:
   -T THRESHOLD, --threshold THRESHOLD
                         valid word count percentage to mark the whole text as
                         valid language (default: 50)
+  --beep                plays a beep sound when program finishes. May require
+                        SOX to be installed
 ```
 
 ##### Examples
@@ -78,6 +80,8 @@ That matrix represents the Scytale. To encrypt the text it is written by rows (5
 ###### Decrypt with a known key
 
 To decrypt you will need to know the columns of the underlying matrix. In the example above they are 9.
+If you only have the key 5 (rows) then you can calculate the columns with the text size:
+`Columns = Size/Rows`. For example, the encrypted text above has size 44, so 44/5 = 8.8, rounding we have that columns are 9.
 
 **`python3 scytale.py -k 9 < test`**
 ```
@@ -108,23 +112,23 @@ To decrypt a message without knowing the key you need to know the original text 
 
 For example, in _Deutsch_ language:
 
-`python3 scytale.py -t "Dies ist das Scytale-Tool von CryptTools!" -k 5`
-`Ddlooiaenoes- ls TCs Sor!icoy sylp tt t  avT`
+`python3 scytale.py -t "Dies ist das Scytale-Tool von CryptTools!" -k 6`
+`DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot`
 
 If language is not provided it will try English and it will fail:
 
-**`python3 scytale.py -V -t "Ddlooiaenoes- ls TCs Sor!icoy sylp tt t  avT"`**
+**`python3 scytale.py -V -t "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot"`**
 ```
-Text to crack: "Ddlooiaenoes- ls TCs Sor!icoy sylp tt t  avT" (44)
-Testing matrix: 2x43       Sorry. None of decrypted results seems to be written in language en_US...
+Text to crack: "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot" (41)
+Testing matrix: 2x40       Sorry. None of decrypted results seems to be written in language en_US...
 ```
 
 Then, providing the correct language:
 
-**`python3 scytale.py -V -t "Ddlooiaenoes- ls TCs Sor!icoy sylp tt t  avT" --lang "de_DE"`**
+**`python3 scytale.py -V -t "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot" --lang "de_DE"`**
 ```
-Text to crack: "Ddlooiaenoes- ls TCs Sor!icoy sylp tt t  avT" (44)
-Testing matrix: 9x5       SUCCESS
+Text to crack: "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot" (41)
+Testing matrix: 7x6       SUCCESS
 Dies ist das Scytale-Tool von CryptTools!
 ```
 
@@ -132,31 +136,25 @@ You can check all available codes with `python3 scytale.py --help`. You can even
 
 If original text _**language is unknown**_ you still can generate all possible transformations, then you will need to check them manually in order to know which is the correct:
 
-**`python3 scytale.py -V -A -t "Ddlooiaenoes- ls TCs Sor!icoy sylp tt t  avT"`**
+**`python3 scytale.py -V -A -t "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot"`**
 ```
 Text to crack: "Ddlooiaenoes- ls TCs Sor!icoy sylp tt t  avT" (44)
 ...
-Testing matrix: 2x22       Testing decrypted text:
-"Dodrl!oiocioaye nsoyelsp-  tlts  tT C sa vST"
-Testing matrix: 22x2       Testing decrypted text:
-"Dloane-l C o!cysl tt vdoieos sTsSrio ypt  aT"
-Testing matrix: 3x15       Testing decrypted text:
-"Dssd ylTloCpos i taSteo nrto! ei sca-ov yTl"
-Testing matrix: 15x3       Testing decrypted text:
-"Doao-sCS!ospt vdoee  soiyy   TlinslT rc ltta"
-Testing matrix: 5x9       Testing decrypted text:
-"DoCotdesy ls  to-Ss o oy ilrlaas!pve i TnTct"
-Testing matrix: 9x5       Testing decrypted text:
-"Dies ist das Scytale-Tool von CryptTools!"
-Testing matrix: 6x8       Testing decrypted text:
-"Dn !l doTipaleCc vossotTo- yt i S   alost esry"
-Testing matrix: 8x6       Testing decrypted text:
-"Da-C!stvde siy Tlnl clt oosSop  oe oy   isTr ta"
-Testing matrix: 7x7       Testing decrypted text:
-"DelSytvdnso tTlo rs  oeT!yt osCil  i-scp  a  o a"
+Testing matrix: 2x21       Testing decrypted text:
+"DltrclT nsTli  yysoi  oeevdpt!osCSo-soata"
+Testing matrix: 21x2       Testing decrypted text:
+"Dcniy etCsar lyieps-ttTT oodooalls s v!So"
+Testing matrix: 3x14       Testing decrypted text:
+"DtytoscCiTo nseTaviap l!yrsolS  -osoeltd"
+Testing matrix: 14x3       Testing decrypted text:
+"DTioeosl  ivsotn  dCarsy pStcTyotoallse!-"
+Testing matrix: 4x11       Testing decrypted text:
+"Dorvtelpcd !TtssnolSTC -ioyo sstyai oa   le"
+Testing matrix: 11x4       Testing decrypted text:
+"DnyeCa yesttTodolssvS ci tsrlip- T ooal  !o"
 ...
-Testing matrix: 2x43       Testing decrypted text:
-"DTd l o o i a e n o e s -   l s   T C s   S o r ! i c o y   s y l p   t t   t     a v"
+Testing matrix: 2x40       Testing decrypted text:
+"Dtt c T n T i   y o   o e d t o C o s a a l r l   s l   y s i   e v p ! s S - o"
 Sorry. None of decrypted results seems to be written in language en_US...
 ```
 

@@ -85,6 +85,10 @@ def is_valid(text, lang='en_US'):
     return False
 
 def test(text, rows, cols):
+    dimensions = (rows, cols)
+    if dimensions in testedKeys:
+        return
+    testedKeys.add(dimensions)
     decrypt = scytale(text, rows, cols)
     if args.verbose:
         sys.stdout.write("\r")
@@ -113,6 +117,8 @@ def testKeys(text, keys):
 
 def crack(text):
     """Cracks the text that must be encrypted with the scytale cipher"""
+    global testedKeys
+    testedKeys = set()
     if args.verbose:
         print(f'Text to crack: "{text}" ({size})')
     divs = list(divisors(size))
