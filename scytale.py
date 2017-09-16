@@ -17,12 +17,14 @@ def error(msg):
 
 def success():
     print("SUCCESS")
-    for i in range(3):
-        os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (0.1, 600))
+    if args.beep:
+        for i in range(3):
+            os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (0.1, 600))
 
 def fail():
     print(f"Sorry. None of decrypted results seems to be written in language {lang}...")
-    os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (1, 300))
+    if args.beep:
+        os.system('play --no-show-progress --null --channels 1 synth %s sine %f' % (1, 300))
 
 def key_to_matrix_bounds(key):
     rows = key
@@ -133,6 +135,7 @@ parser.add_argument("-V", "--verbose", action='store_true', help="show extra inf
 parser.add_argument("-A", "--all", action='store_true', help="show decrypted text for each tested key")
 parser.add_argument("-D", "--debug", action='store_true', help="show information about text validation")
 parser.add_argument("-T", "--threshold", help="valid word count percentage to mark the whole text as valid language (default: 50)", type=int)
+parser.add_argument("--beep", action='store_true', help="plays a beep sound when program finishes. May require SOX to be installed")
 
 args = parser.parse_args()
 lang = args.lang

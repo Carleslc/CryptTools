@@ -8,7 +8,13 @@ _These tools are designed to be useful in the field of computer security and the
 
 1. Install **[Python 3](https://www.python.org/downloads/)** if you do not have it yet.
 2. Clone this repository: `git clone https://github.com/Carleslc/CryptTools.git`
-3. _Ready!_
+3. Install the following Python dependencies:
+```
+pip3 install re
+pip3 install numpy
+pip3 install pyenchant
+```
+4. _Ready!_
 
 ## Tools available
 
