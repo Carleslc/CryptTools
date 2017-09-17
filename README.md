@@ -37,7 +37,7 @@ pip3 install pyenchant
 
 _These tools are designed to be useful in the field of computer security and their use is restricted to personal use or under consent. I am not responsible for any illicit use that may occur._
 
-## Caesar
+### Caesar
 
 [--> What is the Caesar Cipher? <--](https://en.wikipedia.org/wiki/Caesar_cipher)
 
