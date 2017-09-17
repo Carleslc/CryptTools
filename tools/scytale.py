@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
-sys.path.insert(0, "lib")
+sys.path.insert(0, "../lib")
 from utils import *
 from validator import *
 import argparse

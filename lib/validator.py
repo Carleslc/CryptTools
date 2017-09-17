@@ -6,7 +6,7 @@ import os
 import re
 import enchant
 
-NON_ALPHABET = re.compile('[^a-zA-Z]+|\\b[a-zA-Z]\\b')
+NON_ALPHABET = re.compile('[^a-zA-Z]+')
 
 class Validator:
 
