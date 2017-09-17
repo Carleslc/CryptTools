@@ -22,7 +22,7 @@ Tools for encryption, decryption and cracking from several cryptographic systems
           - [Decrypt without knowing the key](#decrypt-without-knowing-the-key-1)
           - [Advanced features](#advanced-features-1)
       - [NOTE](#note-1)
-  - [Vigenère](#vigenere)
+  - [Vigenère](#vigenère)
       - [Usage](#usage-2)
         - [Examples](#examples-2)
           - [Encrypt a text and save to a file](#encrypt-a-text-and-save-to-a-file-2)
@@ -133,7 +133,9 @@ To decrypt a message without knowing the key you need to know the original text 
 For example, in _Deutsch_ language:
 
 `python3 caesar.py -t "Dies ist das Scytale-Tool von CryptTools!" -k 6`
-`Joky oyz jgy Yiezgrk-Zuur but IxevzZuury!`
+```
+Joky oyz jgy Yiezgrk-Zuur but IxevzZuury!
+```
 
 If language is not provided it will try English and it will fail:
 
@@ -448,7 +450,7 @@ As you can see, it is too easy to crack this classical cryptographic system so i
 
 ### Vigenère
 
-[--> What is the Vigenère Cipher? <--](https://en.wikipedia.org/wiki/Vigenere_cipher)
+[--> What is the Vigenère Cipher? <--](https://en.wikipedia.org/wiki/Vigenère_cipher)
 
 #### Usage
 
