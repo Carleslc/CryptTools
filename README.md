@@ -2,28 +2,26 @@
 
 Tools for encryption, decryption and cracking from several cryptographic systems.
 
-_These tools are designed to be useful in the field of computer security and their use is restricted to personal use or under consent. I am not responsible for any illicit use that may occur._
-
-- [How to Install](#)
-- [Tools available](#)
-  - [Caesar](#)
-      - [Usage](#)
-        - [Examples](#)
-          - [Encrypt a text and save to a file](#)
-          - [Encrypt with extra information](#)
-          - [Decrypt with a known key](#)
-          - [Decrypt without knowing the key](#)
-          - [Advanced features](#)
-      - [NOTE](#)
-  - [Scytale](#)
-      - [Usage](#)
-        - [Examples](#)
-          - [Encrypt a text and save to a file](#)
-          - [Encrypt with extra information](#)
-          - [Decrypt with a known key](#)
-          - [Decrypt without knowing the key](#)
-          - [Advanced features](#)
-      - [NOTE](#)
+- [How to Install](#how-to-install)
+- [Tools available](#tools-available)
+  - [Caesar](#caesar)
+      - [Usage](#usage)
+        - [Examples](#examples)
+          - [Encrypt a text and save to a file](#encrypt-a-text-and-save-to-a-file)
+          - [Encrypt with extra information](#encrypt-with-extra-information)
+          - [Decrypt with a known key](#decrypt-with-a-known-key)
+          - [Decrypt without knowing the key](#decrypt-without-knowning-the-key)
+          - [Advanced features](#advanced-features)
+      - [NOTE](#note)
+  - [Scytale](#scytale)
+      - [Usage](#usage-1)
+        - [Examples](#examples-1)
+          - [Encrypt a text and save to a file](#encrypt-a-text-and-save-to-a-file-1)
+          - [Encrypt with extra information](#encrypt-with-extra-information-1)
+          - [Decrypt with a known key](#decrypt-with-a-known-key-1)
+          - [Decrypt without knowing the key](#decrypt-without-knowning-the-key-1)
+          - [Advanced features](#advanced-features-1)
+      - [NOTE](#note-1)
 
 ## How to Install
 
@@ -36,6 +34,8 @@ pip3 install pyenchant
 ```
 
 ## Tools available
+
+_These tools are designed to be useful in the field of computer security and their use is restricted to personal use or under consent. I am not responsible for any illicit use that may occur._
 
 ### Caesar
 
