@@ -4,7 +4,26 @@ Tools for encryption, decryption and cracking from several cryptographic systems
 
 _These tools are designed to be useful in the field of computer security and their use is restricted to personal use or under consent. I am not responsible for any illicit use that may occur._
 
-<!-- toc -->
+- [How to Install](#)
+- [Tools available](#)
+  - [Caesar](#)
+      - [Usage](#)
+        - [Examples](#)
+          - [Encrypt a text and save to a file](#)
+          - [Encrypt with extra information](#)
+          - [Decrypt with a known key](#)
+          - [Decrypt without knowing the key](#)
+          - [Advanced features](#)
+      - [NOTE](#)
+  - [Scytale](#)
+      - [Usage](#)
+        - [Examples](#)
+          - [Encrypt a text and save to a file](#)
+          - [Encrypt with extra information](#)
+          - [Decrypt with a known key](#)
+          - [Decrypt without knowing the key](#)
+          - [Advanced features](#)
+      - [NOTE](#)
 
 ## How to Install
 
@@ -188,7 +207,7 @@ This is the Caesar tool from CryptTools!
 
 You can also set the permissiveness of the language validation process with the `--threshold -T` option. By default it is set to 50 (half of the text words must be written in the specified language in order to accept it as the original text). Values must be between 1 and 100. Values below 20% are not recommended (an encrypted text may be accepted as decrypted). Higher values indicate toughness, but 100% it is neither recommended (in the text may be non-english nouns and other original but non-english words).
 
-###### NOTE
+#### NOTE
 
 As you can see, it is too easy to crack this classical cryptographic system so it is not recommended to use it in production software.
 
@@ -417,6 +436,6 @@ This is the Scytale tool from CryptTools!
 
 You can also set the permissiveness of the language validation process with the `--threshold -T` option. By default it is set to 50 (half of the text words must be written in the specified language in order to accept it as the original text). Values must be between 1 and 100. Values below 20% are not recommended (an encrypted text may be accepted as decrypted). Higher values indicate toughness, but 100% it is neither recommended (in the text may be non-english nouns and other original but non-english words).
 
-###### NOTE
+#### NOTE
 
 As you can see, it is too easy to crack this classical cryptographic system so it is not recommended to use it in production software.
