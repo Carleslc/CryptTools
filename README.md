@@ -4,6 +4,8 @@ Tools for encryption, decryption and cracking from several cryptographic systems
 
 _These tools are designed to be useful in the field of computer security and their use is restricted to personal use or under consent. I am not responsible for any illicit use that may occur._
 
+<!-- toc -->
+
 ## How to Install
 
 1. Install **[Python 3](https://www.python.org/downloads/)** if you do not have it yet.
