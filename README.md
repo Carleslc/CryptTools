@@ -10,11 +10,9 @@ _These tools are designed to be useful in the field of computer security and the
 2. Clone this repository: `git clone https://github.com/Carleslc/CryptTools.git`
 3. Install the following Python dependencies:
 ```
-pip3 install re
 pip3 install numpy
 pip3 install pyenchant
 ```
-4. _Ready!_
 
 ## Tools available
 
@@ -288,7 +286,9 @@ To decrypt a message without knowing the key you need to know the original text 
 For example, in _Deutsch_ language:
 
 `python3 scytale.py -t "Dies ist das Scytale-Tool von CryptTools!" -k 6`
-`DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot`
+```
+DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot
+```
 
 If language is not provided it will try English and it will fail:
 
