@@ -10,7 +10,7 @@ Tools for encryption, decryption and cracking from several cryptographic systems
           - [Encrypt a text and save to a file](#encrypt-a-text-and-save-to-a-file)
           - [Encrypt with extra information](#encrypt-with-extra-information)
           - [Decrypt with a known key](#decrypt-with-a-known-key)
-          - [Decrypt without knowing the key](#decrypt-without-knowning-the-key)
+          - [Decrypt without knowing the key](#decrypt-without-knowing-the-key)
           - [Advanced features](#advanced-features)
       - [NOTE](#note)
   - [Scytale](#scytale)
@@ -19,7 +19,7 @@ Tools for encryption, decryption and cracking from several cryptographic systems
           - [Encrypt a text and save to a file](#encrypt-a-text-and-save-to-a-file-1)
           - [Encrypt with extra information](#encrypt-with-extra-information-1)
           - [Decrypt with a known key](#decrypt-with-a-known-key-1)
-          - [Decrypt without knowing the key](#decrypt-without-knowning-the-key-1)
+          - [Decrypt without knowing the key](#decrypt-without-knowing-the-key-1)
           - [Advanced features](#advanced-features-1)
       - [NOTE](#note-1)
 
@@ -37,7 +37,7 @@ pip3 install pyenchant
 
 _These tools are designed to be useful in the field of computer security and their use is restricted to personal use or under consent. I am not responsible for any illicit use that may occur._
 
-### Caesar
+## Caesar
 
 [--> What is the Caesar Cipher? <--](https://en.wikipedia.org/wiki/Caesar_cipher)
 
