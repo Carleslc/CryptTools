@@ -1,2 +1,5 @@
+# Mac OS
 .DS_Store
-lib/__*
+
+# Python
+*/__pycache__

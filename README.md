@@ -22,6 +22,12 @@ Tools for encryption, decryption and cracking from several cryptographic systems
           - [Decrypt without knowing the key](#decrypt-without-knowing-the-key-1)
           - [Advanced features](#advanced-features-1)
       - [NOTE](#note-1)
+  - [Vigenère](#vigenere)
+      - [Usage](#usage-2)
+        - [Examples](#examples-2)
+          - [Encrypt a text and save to a file](#encrypt-a-text-and-save-to-a-file-2)
+          - [Encrypt with extra information](#encrypt-with-extra-information-2)
+          - [Decrypt with a known key](#decrypt-with-a-known-key-2)
 
 ## How to Install
 
@@ -439,3 +445,53 @@ You can also set the permissiveness of the language validation process with the 
 #### NOTE
 
 As you can see, it is too easy to crack this classical cryptographic system so it is not recommended to use it in production software.
+
+### Vigenère
+
+[--> What is the Vigenère Cipher? <--](https://en.wikipedia.org/wiki/Vigenere_cipher)
+
+#### Usage
+
+`python3 vigenere.py --help`
+```
+usage: vigenere.py [-h] [-t TEXT] [--decrypt] [-V] key
+
+positional arguments:
+  key                   key used to encrypt or decrypt
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t TEXT, --text TEXT  text to read from. If not specified the program will
+                        read from standard input
+  --decrypt             use the key to decrypt the text
+  -V, --verbose         show extra information
+```
+
+##### Examples
+
+###### Encrypt a text and save to a file
+
+**`python3 vigenere.py -t "This is the Vigenere tool from CryptTools!" "CRYPT" > test`**
+```
+Vygh bu kft Okxccxtv rdhn wpdf EiwemVfmal!
+```
+
+`-t` argument is not mandatory, so if you need to encrypt a long text you can skip it, execute `python3 vigenere.py "CRYPT" > test` and then paste your text. When completed press `Return` and then finish the input with `Ctrl+D` so the program will read it.
+
+###### Encrypt with extra information
+
+**`python3 vigenere.py -t "This is the Vigenere tool from CryptTools!" "CRYPT" -V`**
+```
+Key "CRYPT" shifts: [2, 17, 24, 15, 19]
+Vygh bu kft Okxccxtv rdhn wpdf EiwemVfmal!
+```
+
+###### Decrypt with a known key
+
+To decrypt you will need to know the encryption key. In the example above it is _CRYPT_.
+You need to provide the argument `--decrypt` to use the key to decrypt.
+
+**`python3 vigenere.py "CRYPT" --decrypt < test`**
+```
+This is the Vigenere tool from CryptTools!
+```

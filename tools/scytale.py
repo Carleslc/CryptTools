@@ -7,7 +7,6 @@ from utils import *
 from validator import *
 import argparse
 import numpy as np
-import math
 import enchant
 
 FILL_CHARACTER = ' '
@@ -76,10 +75,6 @@ def crack(text):
     if testKeys(text, divs) or testKeys(text, keys):
         return
     validator.fail()
-
-def divisors(n):
-    for i in range(1, math.ceil(n/2 + 1)):
-        if n % i == 0: yield i
 
 # MAIN
 

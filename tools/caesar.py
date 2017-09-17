@@ -12,17 +12,7 @@ def caesar(text, shift):
     """Encrypts/Decrypts a `text` using the caesar substitution cipher with specified `shift` key"""
     if shift < 0 or shift > MODULE:
         error(f"key must be between 0 and {MODULE}")
-    result = ""
-    for char in text:
-        if char.isalpha():
-            aux = ord(char) + shift 
-            if char.islower() and aux > ord('z'):
-                aux -= MODULE
-            elif char.isupper() and aux > ord('Z'):
-                aux -= MODULE
-            char = chr(aux)
-        result += char
-    return result
+    return ''.join(map(lambda char: shift_by(char, shift), text))
 
 def crack(text):
     """Cracks the text that must be encrypted with the caesar cipher"""
@@ -73,10 +63,10 @@ text = read(args.text)
 
 if args.key is not None:
     if args.verbose:
-        print(f"Original text most frequent character: {most_frequent_char(text)}\n")
+        print(f"Original text most frequent characters: {most_frequent_chars(text)}\n")
     encrypted = caesar(text, args.key)
     print(encrypted)
     if args.verbose:
-        print(f"\nEncrypted text most frequent character: {most_frequent_char(encrypted)}")
+        print(f"\nEncrypted text most frequent characters: {most_frequent_chars(encrypted)}")
 else:
     crack(text)

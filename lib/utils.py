@@ -4,6 +4,7 @@
 import sys
 import re
 import string
+import math
 from collections import Counter
 
 NON_ALPHABET = re.compile('[^a-zA-Z]+')
@@ -27,3 +28,17 @@ def most_frequent_chars(text, size=MODULE):
 
 def most_frequent_char(text):
     return most_frequent_chars(text, size=1)[0][0]
+
+def divisors(n):
+    for i in range(1, math.ceil(n/2 + 1)):
+        if n % i == 0: yield i
+    yield n
+
+def shift_by(char, shift):
+    if char.isalpha():
+        aux = ord(char) + shift
+        z = 'z' if char.islower() else 'Z'
+        if aux > ord(z):
+            aux -= MODULE
+        char = chr(aux)
+    return char
