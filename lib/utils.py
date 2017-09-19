@@ -6,11 +6,13 @@ import re
 import string
 import math
 from collections import Counter
+from functools import reduce
 
 NON_ALPHABET = re.compile('[^a-zA-Z]+')
 ALPHABET = string.ascii_lowercase
 FREQUENCY_ALPHABET = "etaoinshrdlcumwfgypbvkjxqz"
 MODULE = len(ALPHABET)
+FAILED = (None, None)
 
 def read(text=None):
     if not text:
@@ -42,3 +44,17 @@ def shift_by(char, shift):
             aux -= MODULE
         char = chr(aux)
     return char
+
+def coincidence_index(text, frequencies=None):
+    if frequencies is None:
+        frequencies = most_frequent_chars(text)
+    size = len(text)
+    freq_sum = reduce(lambda x, y: x + y, map(lambda freq: freq[1]*(freq[1] - 1), frequencies))
+    size_mult = size * (size - 1)
+    return freq_sum / size_mult
+
+def friedman(text, frequencies=None):
+    kp = 0.067
+    kr = 1/MODULE
+    ko = coincidence_index(text, frequencies)
+    return math.ceil((kp - kr)/(ko - kr))

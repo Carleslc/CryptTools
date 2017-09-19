@@ -31,7 +31,7 @@ Tools for encryption, decryption and cracking from several cryptographic systems
 
 ## How to Install
 
-1. Install **[Python 3](https://www.python.org/downloads/)** if you do not have it yet.
+1. Install **[Python 3.6](https://www.python.org/downloads/)** if you do not have it yet.
 2. Clone this repository: `git clone https://github.com/Carleslc/CryptTools.git`
 3. Install the following Python dependencies:
 ```
@@ -456,17 +456,28 @@ As you can see, it is too easy to crack this classical cryptographic system so i
 
 `python3 vigenere.py --help`
 ```
-usage: vigenere.py [-h] [-t TEXT] [--decrypt] [-V] key
-
-positional arguments:
-  key                   key used to encrypt or decrypt
+usage: vigenere.py [-h] [-t TEXT] [-k KEY] [--decrypt] [-l LANG] [-V] [-A]
+                   [-D] [-T THRESHOLD] [--beep]
 
 optional arguments:
   -h, --help            show this help message and exit
   -t TEXT, --text TEXT  text to read from. If not specified the program will
                         read from standard input
+  -k KEY, --key KEY     key used to encrypt or decrypt. If no key is provided
+                        the program will try to crack and decrypt using the
+                        specified language
   --decrypt             use the key to decrypt the text
+  -l LANG, --lang LANG  available languages: ['de_DE', 'en_AU', 'en_GB',
+                        'en_US', 'fr_FR'] (default: en_US). Only useful if no
+                        key is provided
   -V, --verbose         show extra information
+  -A, --all             show decrypted text for each tested key
+  -D, --debug           show information about text validation
+  -T THRESHOLD, --threshold THRESHOLD
+                        valid word count percentage to mark the whole text as
+                        valid language (default: 50)
+  --beep                plays a beep sound when program finishes. May require
+                        SOX to be installed
 ```
 
 ##### Examples
