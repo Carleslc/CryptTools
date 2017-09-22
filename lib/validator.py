@@ -1,12 +1,8 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
 import sys
 import os
 import re
 import enchant
-
-NON_ALPHABET = re.compile('[^a-zA-Z]+')
+from utils import NON_ALPHABET
 
 class Validator:
 

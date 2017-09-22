@@ -29,18 +29,12 @@ def caesar(text, shift):
 
 def crack(text, terminal=True):
     """Cracks the text that must be encrypted with the caesar cipher"""
-    most_frequent = ord(most_frequent_char(text))
-    if args.verbose:
-        print(f"Most frequent character: {chr(most_frequent)}")
-    for i in range(MODULE):
-        possible_original = ord(FREQUENCY_ALPHABET[i])
-        shift = possible_original - most_frequent
-        if shift < 0:
-            shift += MODULE
+    shifts = reversed_shifts(clean(text), args.verbose)
+    for i, shift in enumerate(shifts):
         decrypt = caesar(text, shift)
         if args.verbose:
             sys.stdout.write("\r")
-            sys.stdout.write(f"Testing '{chr(possible_original)}' (ROT-{shift})       ")
+            sys.stdout.write(f"Testing '{FREQUENCY_ALPHABET[i]}' (ROT-{shift})       ")
             sys.stdout.flush()
         if args.all:
             print(f'Testing decrypted text:\n"{decrypt}"')
@@ -48,10 +42,9 @@ def crack(text, terminal=True):
             print()
         if validator.is_valid(decrypt):
             encryptionKey = (MODULE - shift)%MODULE
-            if args.verbose:
-                validator.success()
             if terminal:
                 if args.verbose:
+                    validator.success()
                     if args.debug:
                         print()
                     print(f'Decrypted with ROT-{shift}. Original encryption key: {encryptionKey}')

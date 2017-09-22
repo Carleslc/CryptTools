@@ -28,6 +28,9 @@ Tools for encryption, decryption and cracking from several cryptographic systems
           - [Encrypt a text and save to a file](#encrypt-a-text-and-save-to-a-file-2)
           - [Encrypt with extra information](#encrypt-with-extra-information-2)
           - [Decrypt with a known key](#decrypt-with-a-known-key-2)
+          - [Decrypt without knowing the key](#decrypt-without-knowing-the-key-2)
+          - [Advanced features](#advanced-features-2)
+      - [NOTE](#note-2)
 
 ## How to Install
 
@@ -465,20 +468,19 @@ As you can see, it is too easy to crack this classical cryptographic system so i
 
 `./vigenere.py --help`
 ```
-usage: vigenere.py [-h] [-t TEXT] [-k KEY] [--decrypt] [-l LANG] [-V] [-A]
-                   [-D] [-T THRESHOLD] [--beep]
+usage: vigenere.py [-h] [-t TEXT] [-k KEY] [--decrypt] [--exhaustive] [-V]
+                   [-A] [-D] [-T THRESHOLD] [--beep]
 
 optional arguments:
   -h, --help            show this help message and exit
   -t TEXT, --text TEXT  text to read from. If not specified the program will
                         read from standard input
   -k KEY, --key KEY     key used to encrypt or decrypt. If no key is provided
-                        the program will try to crack and decrypt using the
-                        specified language
-  --decrypt             use the key to decrypt the text
-  -l LANG, --lang LANG  available languages: ['de_DE', 'en_AU', 'en_GB',
-                        'en_US', 'fr_FR'] (default: en_US). Only useful if no
-                        key is provided
+                        the program will try to crack and decrypt the text
+  --decrypt             use the key to decrypt the text. If no key is provided
+                        this argument is redundant
+  --exhaustive          tests all possible keys. If not provided this program
+                        only will test keys below length 100 while cracking
   -V, --verbose         show extra information
   -A, --all             show decrypted text for each tested key
   -D, --debug           show information about text validation
@@ -493,7 +495,7 @@ optional arguments:
 
 ###### Encrypt a text and save to a file
 
-**`./vigenere.py -t "This is the Vigenere tool from CryptTools!" "CRYPT" > test`**
+**`./vigenere.py -t "This is the Vigenere tool from CryptTools!" -k "CRYPT" > test`**
 ```
 Vygh bu kft Okxccxtv rdhn wpdf EiwemVfmal!
 ```
@@ -502,7 +504,7 @@ Vygh bu kft Okxccxtv rdhn wpdf EiwemVfmal!
 
 ###### Encrypt with extra information
 
-**`./vigenere.py -t "This is the Vigenere tool from CryptTools!" "CRYPT" -V`**
+**`./vigenere.py -t "This is the Vigenere tool from CryptTools!" -k "CRYPT" -V`**
 ```
 Key "CRYPT" shifts: [2, 17, 24, 15, 19]
 Vygh bu kft Okxccxtv rdhn wpdf EiwemVfmal!
@@ -513,7 +515,168 @@ Vygh bu kft Okxccxtv rdhn wpdf EiwemVfmal!
 To decrypt you will need to know the encryption key. In the example above it is _CRYPT_.
 You need to provide the argument `--decrypt` to use the key to decrypt.
 
-**`./vigenere.py "CRYPT" --decrypt < test`**
+**`./vigenere.py -k "CRYPT" --decrypt < test`**
 ```
 This is the Vigenere tool from CryptTools!
 ```
+
+###### Decrypt without knowing the key
+
+This method cracks the message testing with statistical methods and bruteforce and then checks every result validating the language to guess which result is the original text. In comparison to previous methods this will only work if the original text language is **English** because of the statistics methods it is using. In addition, in relation to this it is worth noting that long keys may contain some wrong letters. Given this limitation the maximum key length allowed by default is 100. Nevertheless you can force the program to test all possible key lengths using the argument `--exhaustive`. Also take in account that for small texts this program may fail, as we can see in the example below.
+
+**`./vigenere.py < test`**
+```
+Sorry. None of decrypted results seems to be written in language en_US...
+If you want to try more keys execute this program again with the option --exhaustive. However, it is worth noting that the longer the key is the more errors can have the cracked key. In addition, this program may have difficulties to crack keys on smaller texts in comparison with the key length.
+```
+
+Providing longer texts may be more successful:
+
+_test_:
+```
+This method cracks the message testing with statistical methods and bruteforce and then checks every result validating the language to guess which result is the original text. In comparison to previous methods this will only work if the original text language is English because of the statistics methods it is using. In addition, in relation to this it is worth noting that long keys may contain some wrong letters. Given this limitation the maximum key length allowed by default is 100. Nevertheless you can force the program to test all possible key lengths using the argument --exhaustive. Also take in account that for small texts this program may fail, as we can see in the example below.
+```
+
+**`./vigenere.py -k "CRYPT" < test > test_encrypted`**
+```
+Vygh fgkfdw eiyrdu kft fgjqpzg kchmkee lbvy qitvzqiberj bxvymsl ceb qkwkcuhttc pgf kftg eycrdu vttka ichnnk tpekuyibpx rwx nrlvncxc ih ilchl yygra tvqjev zq iag fpxzkeya mgor. Xg efkettzqdg vf ngxxzmjl ovrwhfj rwbu ngae qejn pqii xy vyc dkkxgctn kcmm nrlvncxc xl Geeabuy ztvclqt hh kft lvrrxlvzah fgkfdwu zr xl wjgcz. Ke yswkkgdg, ke pteckgdg vf rwbu zr xl yfpia pfrxgi kfpm nflv dgpq bta tmcmczl hhov ughpx jtmvvph. Zkmcc mjzq abozrpmkfl iag dymbolk zxa ccczvy yaeqncs ua ucutwcr xl 100. Pvttkvycaxuj wdn erl uhttc iag gpdztrk ih vvqi tnc ndluzzax mvw axpxrwl wjgcz vyc pkilktgv --vvwtwjrxog. Rjhh vrit bp rarhwer iack ddk udyae vvvil vygh itfegto dyn yczj, pl yv apg uvc xg vyc tqcdnax dvjdp.
+```
+
+**`./vigenere.py < test_encrypted`**
+```
+This method cracks the message testing with statistical methods and bruteforce and then checks every result validating the language to guess which result is the original text. In comparison to previous methods this will only work if the original text language is English because of the statistics methods it is using. In addition, in relation to this it is worth noting that long keys may contain some wrong letters. Given this limitation the maximum key length allowed by default is 100. Nevertheless you can force the program to test all possible key lengths using the argument --exhaustive. Also take in account that for small texts this program may fail, as we can see in the example below.
+```
+
+
+###### Advanced features
+
+Print cracked key and other information about the cracking process:
+
+**`./vigenere.py -V < test_encrypted`**
+```
+Text IC (Index of Coincidence): 0.04250925751584761
+Friedman test suggests a key length of 8
+Testing key length 8
+Key "SRAZSCKX" shifts: [18, 17, 0, 25, 18, 2, 10, 23]
+Kasiki examination
+Finding sequence duplicates and spacings...
+100% 
+Extracting spacing divisors...
+Testing key length 5
+Key "CRYPT" shifts: [2, 17, 24, 15, 19]
+SUCCESS
+Key: CRYPT
+This method cracks the message testing with statistical methods and bruteforce and then checks every result validating the language to guess which result is the original text. In comparison to previous methods this will only work if the original text language is English because of the statistics methods it is using. In addition, in relation to this it is worth noting that long keys may contain some wrong letters. Given this limitation the maximum key length allowed by default is 100. Nevertheless you can force the program to test all possible key lengths using the argument --exhaustive. Also take in account that for small texts this program may fail, as we can see in the example below.
+```
+
+Print even more information:
+
+**`./vigenere.py -VA < test_encrypted`**
+```
+Frequencies: [('v', 39), ('c', 37), ('g', 34), ('k', 32), ('t', 32), ('r', 27), ('x', 26), ('y', 25), ('l', 24), ('e', 23), ('a', 23), ('p', 22), ('z', 22), ('i', 21), ('h', 20), ('f', 20), ('d', 20), ('w', 17), ('u', 17), ('n', 17), ('j', 15), ('q', 15), ('m', 15), ('b', 12), ('o', 7), ('s', 3)]
+Text IC (Index of Coincidence): 0.04250925751584761
+Friedman test suggests a key length of 8
+Testing key length 8
+Subgroup 1 (IC: 0.041851106639839035)
+vdkzevbehfuhuxcyjfmkvjjeikmxbqvhzzgcwfglahxzqkmcecparaknaxzkwhrayvgzgcd
+Testing subkey 'A' with match score 57%
+Testing subkey 'B' with match score 56%
+...
+Key "SRAZSCKX" shifts: [18, 17, 0, 25, 18, 2, 10, 23]
+Kasiki examination
+Finding sequence duplicates and spacings...
+100% 
+{'kft': [55, 220, 165], 'rdu': [65], 'vzqi': [90], 'nrlvncxc': [105], 'hfgkfdw': [245], 'rxl': [15, 50, 155, 140, 105], 'zkey': [125], 'kgdg': [10], 'dgvf': [125], 'rwbu': [110], 'uzrxl': [35], 'rxg': [155], 'iag': [230, 290, 60], 'aeq': [200], 'vttk': [320], 'vyc': [210, 270, 60, 355, 145, 85], 'uhttc': [355], 'qit': [400], 'pxrw': [355], 'lwjgcz': [200], 'czvy': [85], 'yae': [130], 'vvv': [40], 'vygh': [520]}
+Extracting spacing divisors...
+Kasiki possible key lengths (sorted by probability):
+[5, 10, 2, 4, 15, 20, 3, 7, 11, 35, 40, 6, 25, 30, 55, 9, 13, 14, 50, 65, 16, 18, 21, 22, 26, 29, 45, 70, 80, 90, 100, 12, 17, 23, 27, 28, 31, 32, 33, 42, 44, 46, 49, 52, 54, 58, 60, 64, 71, 85]
+Testing key length 5
+Subgroup 1 (IC: 0.07237673830594185)
+vgeuggkvvevcwtfeuankpnciytvgkgetvxofuqqvknncguchvvguwkkkcvuypingacopvkjokgoavqawpvuetgtvnumpwvivwgvpwcuvvtocyuvcd
+Testing subkey 'A' with match score 53%
+Testing subkey 'B' with match score 54%
+Testing subkey 'C' with match score 69%
+Testing subkey 'D' with match score 54%
+Testing subkey 'E' with match score 53%
+Testing subkey 'F' with match score 46%
+Testing subkey 'G' with match score 60%
+Testing subkey 'H' with match score 54%
+Testing subkey 'I' with match score 58%
+Testing subkey 'J' with match score 52%
+Testing subkey 'K' with match score 54%
+Testing subkey 'L' with match score 55%
+Testing subkey 'M' with match score 52%
+Testing subkey 'N' with match score 59%
+Testing subkey 'O' with match score 58%
+Testing subkey 'P' with match score 52%
+Testing subkey 'Q' with match score 48%
+Testing subkey 'R' with match score 58%
+Testing subkey 'S' with match score 56%
+Testing subkey 'T' with match score 56%
+Testing subkey 'U' with match score 54%
+Testing subkey 'V' with match score 53%
+Testing subkey 'W' with match score 54%
+Testing subkey 'X' with match score 52%
+Testing subkey 'Y' with match score 52%
+Testing subkey 'Z' with match score 51%
+Best subkey is 'C' with match score 69%
+...
+Subgroup 4 (IC: 0.06368520859671302)
+hdrtphliibsquptrthpiwvihrjixaxedgjwwanxdcmvxatttxhdxcsdtdwxixpvbchgthcapimzcasuxtaduidiidaawcptwxhtridaihgnppxtad
+Testing subkey 'A' with match score 63%
+Testing subkey 'B' with match score 58%
+Testing subkey 'C' with match score 53%
+Testing subkey 'D' with match score 57%
+Testing subkey 'E' with match score 59%
+Testing subkey 'F' with match score 57%
+Testing subkey 'G' with match score 57%
+Testing subkey 'H' with match score 57%
+Testing subkey 'I' with match score 55%
+Testing subkey 'J' with match score 56%
+Testing subkey 'K' with match score 60%
+Testing subkey 'L' with match score 56%
+Testing subkey 'M' with match score 54%
+Testing subkey 'N' with match score 51%
+Testing subkey 'O' with match score 58%
+Testing subkey 'P' with match score 77%
+Testing subkey 'Q' with match score 58%
+Testing subkey 'R' with match score 54%
+Testing subkey 'S' with match score 52%
+Testing subkey 'T' with match score 57%
+Testing subkey 'U' with match score 57%
+Testing subkey 'V' with match score 57%
+Testing subkey 'W' with match score 56%
+Testing subkey 'X' with match score 53%
+Testing subkey 'Y' with match score 52%
+Testing subkey 'Z' with match score 53%
+Best subkey is 'P' with match score 77%
+Subgroup 5 (IC: 0.0586283185840708)
+fwdfzmbtbxlkhggdknebxnhlaeazmgtgxlhbepyktmnlbvhllfwlzwgegblagmdtmhhmzmbmabxzeutlkxnhazhtlxxlzkgtohbhakelitylggqxp
+Testing subkey 'A' with match score 56%
+Testing subkey 'B' with match score 54%
+...
+Testing subkey 'R' with match score 54%
+Testing subkey 'S' with match score 62%
+Testing subkey 'T' with match score 75%
+Testing subkey 'U' with match score 56%
+Testing subkey 'V' with match score 52%
+Testing subkey 'W' with match score 51%
+Testing subkey 'X' with match score 58%
+Testing subkey 'Y' with match score 60%
+Testing subkey 'Z' with match score 62%
+Best subkey is 'T' with match score 75%
+Key "CRYPT" shifts: [2, 17, 24, 15, 19]
+SUCCESS
+Key: CRYPT
+This method cracks the message testing with statistical methods and bruteforce and then checks every result validating the language to guess which result is the original text. In comparison to previous methods this will only work if the original text language is English because of the statistics methods it is using. In addition, in relation to this it is worth noting that long keys may contain some wrong letters. Given this limitation the maximum key length allowed by default is 100. Nevertheless you can force the program to test all possible key lengths using the argument --exhaustive. Also take in account that for small texts this program may fail, as we can see in the example below.
+```
+
+In addition, with the extra option `-D` you can check the language validation process in the same way that with previous cryptographic systems.
+
+`-A` and `-D` options may be too verbose, avoid using them for long texts.
+
+You can also set the permissiveness of the language validation process with the `--threshold -T` option. By default it is set to 50 (half of the text words must be written in the specified language in order to accept it as the original text). Values must be between 1 and 100. Values below 20% are not recommended (an encrypted text may be accepted as decrypted). Higher values indicate toughness, but 100% it is neither recommended (in the text may be non-english nouns and other original but non-english words).
+
+#### NOTE
+
+As you can see the choice of the key is important. In order to have a secure encryption you will need to provide a key of at least the length of the text and it needs to be unique for that text. However, nowadays there are many others cryptographic systems more advanced and useful.
