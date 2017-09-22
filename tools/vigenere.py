@@ -1,11 +1,13 @@
-#!/usr/bin/python3
+#!/usr/bin/python3.6
 # -*- coding: utf-8 -*-
 
 import sys
 sys.path.insert(0, "../lib")
-from utils import *
 from validator import *
+from utils import FAILED, MODULE, flatten, flatmap, read
+import utils
 import caesar
+import math
 import enchant
 import argparse
 
@@ -40,8 +42,10 @@ def vigenere(text, key):
         return char
     return ''.join(map(do_shift, text))
 
-def crack(text, terminal=True):
-    args.decrypt = True
+def useful_divisors(terms):
+    return flatmap(lambda n: list(utils.divisors(n))[1:], terms)
+
+def caesar_crack(text):
     if args.verbose:
         print("Testing key length 1 (Caesar crack)")
     caesar.args = args
@@ -56,12 +60,50 @@ def crack(text, terminal=True):
         return (key, decryptedKey)
     elif args.verbose:
         print("Caesar failed")
-    frequencies = most_frequent_chars(text)
+    return FAILED
+
+def friedman(text, frequencies=None):
+    kp = 0.067
+    kr = 1/MODULE
+    ko = utils.coincidence_index(text, frequencies)
+    return math.ceil((kp - kr)/(ko - kr))
+
+def kasiki(text):
     if args.verbose:
+        print("Finding sequence duplicates and spacings...")
+    utils.args = args
+    min_length = 2 if len(text) < 100 else 3
+    seqSpacings = utils.find_sequence_duplicates(text, min_length)
+    if args.verbose:
+        if args.all:
+            print(seqSpacings)
+        print("Extracting spacing divisors...")
+    divisors = useful_divisors(flatten(list(seqSpacings.values())))
+    divisorsCount = utils.repetitions(divisors)
+    return [x[0] for x in divisorsCount]
+
+def crack(text, terminal=True):
+    args.decrypt = True
+    tryCaesar = caesar_crack(text)
+    if tryCaesar != FAILED:
+        return tryCaesar
+    frequencies = utils.most_frequent_chars(text)
+    if args.all:
         print(f"Frequencies: {frequencies}")
     key_avg = friedman(text, frequencies)
-    print(f"Friedman test suggests a key length of {key_avg}")
-    # TODO Kasiki, Frequency analysis, Key extraction, Vigenere with key
+    if args.verbose and key_avg > 0:
+        print(f"Friedman test suggests a key length of {key_avg}")
+        # TODO: Test key_avg
+    if args.verbose:
+        print("Kasiki examination")
+    key_lengths = kasiki(text)
+    if args.all:
+        print("Kasiki possible key lengths (sorted by probability):")
+        print(key_lengths)
+    for key_length in key_lengths:
+        if args.verbose:
+            print(f"Testing key length of {key_length}")
+        # TODO
     if terminal:
         validator.fail()
     return FAILED

@@ -25,6 +25,19 @@ def error(msg):
     print(msg, file=sys.stderr)
     sys.exit(0)
 
+def flatmap(f, items):
+    return [x for mappedList in map(f, items) for x in mappedList]
+
+def flatten(listOfLists):
+    return flatmap(lambda l: l, listOfLists)
+
+def repetitions(l):
+    result = Counter(l).most_common(len(l))
+    def comparator(x):
+        return -x[1], x[0]
+    result.sort(key=comparator)
+    return result
+
 def most_frequent_chars(text, size=MODULE):
     return Counter(NON_ALPHABET.sub('', text.lower())).most_common(size)
 
@@ -53,8 +66,28 @@ def coincidence_index(text, frequencies=None):
     size_mult = size * (size - 1)
     return freq_sum / size_mult
 
-def friedman(text, frequencies=None):
-    kp = 0.067
-    kr = 1/MODULE
-    ko = coincidence_index(text, frequencies)
-    return math.ceil((kp - kr)/(ko - kr))
+def find_sequence_duplicates(text, min_length=3):
+    text = NON_ALPHABET.sub('', text.lower())
+
+    sizeAlpha = len(text) + 1
+    seqSpacings = {}
+
+    lengths = [[0] * i for i in range(sizeAlpha)]
+
+    for i in range(1, sizeAlpha):
+        if args.verbose:
+            sys.stdout.write("\r")
+            sys.stdout.write(f"{round(100 * (i/(sizeAlpha- 1)))}% ")
+            sys.stdout.flush()
+        for j in range(1, i):
+            if text[i - 1] == text[j - 1]:
+                duplicate_length = lengths[i][j] = lengths[i - 1][j - 1] + 1
+                spacing = i - j
+                if duplicate_length >= min_length and (i >= (sizeAlpha - 1) or text[i] != text[j]):
+                    duplication = text[i - duplicate_length:i]
+                    if duplication not in seqSpacings:
+                        seqSpacings[duplication] = []
+                    seqSpacings[duplication].append(spacing)
+    if args.verbose:
+        print()
+    return seqSpacings

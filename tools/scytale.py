@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3.6
 # -*- coding: utf-8 -*-
 
 import sys
@@ -94,9 +94,7 @@ def crack(text, terminal=True):
     if decrypted == FAILED:
         keys = [x for x in range(2, size) if x not in divs]
         decrypted = testKeys(text, keys, terminal)
-        if decrypted != FAILED:
-            return decrypted
-    else:
+    if decrypted != FAILED:
         return decrypted
     if terminal:
         validator.fail()

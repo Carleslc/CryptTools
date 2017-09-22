@@ -32,11 +32,20 @@ Tools for encryption, decryption and cracking from several cryptographic systems
 ## How to Install
 
 1. Install **[Python 3.6](https://www.python.org/downloads/)** if you do not have it yet.
-2. Clone this repository: `git clone https://github.com/Carleslc/CryptTools.git`
+2. Ensure that you have installed **python3.6** in **/usr/bin** otherwise you will need to make a symbolic link to its real location:
+```
+sudo ln -s $(which python3.6) /usr/bin/python3.6
+```
 3. Install the following Python dependencies:
 ```
 pip3 install numpy
 pip3 install pyenchant
+```
+4. Clone this repository: `git clone https://github.com/Carleslc/CryptTools.git`
+5. Give execution permissions to all tools:
+```
+cd CryptTools/tools
+chmod +x *
 ```
 
 ## Tools available
@@ -49,7 +58,7 @@ _These tools are designed to be useful in the field of computer security and the
 
 #### Usage
 
-`python3 caesar.py --help`
+`./caesar.py --help`
 ```
 usage: caesar.py [-h] [-t TEXT] [-k KEY] [-l LANG] [-V] [-A] [-D]
                  [-T THRESHOLD] [--beep]
@@ -78,16 +87,16 @@ optional arguments:
 
 ###### Encrypt a text and save to a file
 
-**`python3 caesar.py -t "This is the Caesar tool from CryptTools!" -k 5 > test`**
+**`./caesar.py -t "This is the Caesar tool from CryptTools!" -k 5 > test`**
 ```
 Ymnx nx ymj Hfjxfw yttq kwtr HwduyYttqx!
 ```
 
-`-t` argument is not mandatory, so if you need to encrypt a long text you can skip it, execute `python3 caesar.py -k 5 > test` and then paste your text. When completed press `Return` and then finish the input with `Ctrl+D` so the program will read it.
+`-t` argument is not mandatory, so if you need to encrypt a long text you can skip it, execute `./caesar.py -k 5 > test` and then paste your text. When completed press `Return` and then finish the input with `Ctrl+D` so the program will read it.
 
 ###### Encrypt with extra information
 
-**`python3 caesar.py -t "This is the Caesar tool from CryptTools!" -k 5 -VA`**
+**`./caesar.py -t "This is the Caesar tool from CryptTools!" -k 5 -VA`**
 ```
 Original text most frequent character: t
 
@@ -100,7 +109,7 @@ Encrypted text most frequent character: y
 
 To decrypt you will need to know the shift needed to reallocate each character to its correct character in the alphabet. In the example above the encrypted shift is 5 so the shift needed to decrypt is 26 - 5 = 21, where 26 is the size of the alphabet.
 
-**`python3 caesar.py -k 21 < test`**
+**`./caesar.py -k 21 < test`**
 ```
 This is the Caesar tool from CryptTools!
 ```
@@ -109,7 +118,7 @@ This is the Caesar tool from CryptTools!
 
 This method cracks the message with bruteforce and then checks every result validating the language to guess which result is the original text. By default language is English, for other languages read below.
 
-**`python3 caesar.py < test`**
+**`./caesar.py < test`**
 ```
 This is the Caesar tool from CryptTools!
 ```
@@ -118,7 +127,7 @@ This is the Caesar tool from CryptTools!
 
 Read from a file and print cracked keys:
 
-**`python3 caesar.py -V < test`**
+**`./caesar.py -V < test`**
 ```
 Most frequent character: y
 Testing 't' (ROT-21)       SUCCESS
@@ -132,14 +141,14 @@ To decrypt a message without knowing the key you need to know the original text 
 
 For example, in _Deutsch_ language:
 
-`python3 caesar.py -t "Dies ist das Scytale-Tool von CryptTools!" -k 6`
+`./caesar.py -t "Dies ist das Scytale-Tool von CryptTools!" -k 6`
 ```
 Joky oyz jgy Yiezgrk-Zuur but IxevzZuury!
 ```
 
 If language is not provided it will try English and it will fail:
 
-**`python3 caesar.py -V -t "Joky oyz jgy Yiezgrk-Zuur but IxevzZuury!"`**
+**`./caesar.py -V -t "Joky oyz jgy Yiezgrk-Zuur but IxevzZuury!"`**
 ```
 Most frequent character: y
 Testing 'z' (ROT-1)        
@@ -148,7 +157,7 @@ Sorry. None of decrypted results seems to be written in language en_US...
 
 Then, providing the correct language:
 
-**`python3 caesar.py -V -t "Joky oyz jgy Yiezgrk-Zuur but IxevzZuury!" --lang "de_DE"`**
+**`./caesar.py -V -t "Joky oyz jgy Yiezgrk-Zuur but IxevzZuury!" --lang "de_DE"`**
 ```
 Most frequent character: y
 Testing 's' (ROT-20)       SUCCESS
@@ -156,11 +165,11 @@ Decrypted with ROT-20. Original encryption key: 6
 Dies ist das Scytale-Tool von CryptTools!
 ```
 
-You can check all available codes with `python3 caesar.py --help`. You can even install more languages, for that take a look [here](http://pythonhosted.org/pyenchant/tutorial.html#adding-language-dictionaries).
+You can check all available codes with `./caesar.py --help`. You can even install more languages, for that take a look [here](http://pythonhosted.org/pyenchant/tutorial.html#adding-language-dictionaries).
 
 If original text _**language is unknown**_ you still can generate all possible transformations, then you will need to check them manually in order to know which is the correct:
 
-**`python3 caesar.py -V -A -t "Joky oyz jgy Yiezgrk-Zuur but IxevzZuury!"`**
+**`./caesar.py -V -A -t "Joky oyz jgy Yiezgrk-Zuur but IxevzZuury!"`**
 ```
 Most frequent character: y
 Testing 'e' (ROT-6)       Testing decrypted text:
@@ -185,7 +194,7 @@ Testing order is frequency order (most common letter is tested first).
 
 In addition, with the extra option `-D` you can check the language validation process:
 
-**`python3 caesar.py -VAD < test`**
+**`./caesar.py -VAD < test`**
 ```
 Most frequent character: y
 Testing 'e' (ROT-6)       Testing decrypted text:
@@ -225,7 +234,7 @@ As you can see, it is too easy to crack this classical cryptographic system so i
 
 #### Usage
 
-`python3 scytale.py --help`
+`./scytale.py --help`
 
 ```
 usage: scytale.py [-h] [-t TEXT] [-k KEY] [-l LANG] [-V] [-A] [-D]
@@ -255,16 +264,16 @@ optional arguments:
 
 ###### Encrypt a text and save to a file
 
-**`python3 scytale.py -t "This is the Scytale tool from CryptTools!" -k 5 > test`**
+**`./scytale.py -t "This is the Scytale tool from CryptTools!" -k 5 > test`**
 ```
 Theoohe moi t lsSoCs cor!iyly st p  aft tlrT
 ```
 
-`-t` argument is not mandatory, so if you need to encrypt a long text you can skip it, execute `python3 scytale.py -k 5 > test` and then paste your text. When completed press `Return` and then finish the input with `Ctrl+D` so the program will read it.
+`-t` argument is not mandatory, so if you need to encrypt a long text you can skip it, execute `./scytale.py -k 5 > test` and then paste your text. When completed press `Return` and then finish the input with `Ctrl+D` so the program will read it.
 
 ###### Encrypt with extra information
 
-**`python3 scytale.py -t "This is the Scytale tool from CryptTools!" -k 5 -VA`**
+**`./scytale.py -t "This is the Scytale tool from CryptTools!" -k 5 -VA`**
 ```
 Testing matrix: 5x9
 Text to cipher: "This is the Scytale tool from CryptTools!" (41)
@@ -285,7 +294,7 @@ To decrypt you will need to know the columns of the underlying matrix. In the ex
 If you only have the key 5 (rows) then you can calculate the columns with the text size:
 `Columns = Size/Rows`. For example, the encrypted text above has size 44, so 44/5 = 8.8, rounding we have that columns are 9.
 
-**`python3 scytale.py -k 9 < test`**
+**`./scytale.py -k 9 < test`**
 ```
 This is the Scytale tool from CryptTools!
 ```
@@ -294,7 +303,7 @@ This is the Scytale tool from CryptTools!
 
 This method cracks the message with bruteforce and then checks every result validating the language to guess which result is the original text. By default language is English, for other languages read below.
 
-**`python3 scytale.py < test`**
+**`./scytale.py < test`**
 ```
 This is the Scytale tool from CryptTools!
 ```
@@ -303,7 +312,7 @@ This is the Scytale tool from CryptTools!
 
 Read from a file and print cracked keys:
 
-**`python3 scytale.py -V < test`**
+**`./scytale.py -V < test`**
 ```
 Text to crack: "Theoohe moi t lsSoCs cor!iyly st p  aft tlrT" (44)
 Testing matrix: 9x5       SUCCESS
@@ -314,14 +323,14 @@ To decrypt a message without knowing the key you need to know the original text 
 
 For example, in _Deutsch_ language:
 
-`python3 scytale.py -t "Dies ist das Scytale-Tool von CryptTools!" -k 6`
+`./scytale.py -t "Dies ist das Scytale-Tool von CryptTools!" -k 6`
 ```
 DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot
 ```
 
 If language is not provided it will try English and it will fail:
 
-**`python3 scytale.py -V -t "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot"`**
+**`./scytale.py -V -t "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot"`**
 ```
 Text to crack: "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot" (41)
 Testing matrix: 2x40       Sorry. None of decrypted results seems to be written in language en_US...
@@ -329,18 +338,18 @@ Testing matrix: 2x40       Sorry. None of decrypted results seems to be written 
 
 Then, providing the correct language:
 
-**`python3 scytale.py -V -t "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot" --lang "de_DE"`**
+**`./scytale.py -V -t "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot" --lang "de_DE"`**
 ```
 Text to crack: "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot" (41)
 Testing matrix: 7x6       SUCCESS
 Dies ist das Scytale-Tool von CryptTools!
 ```
 
-You can check all available codes with `python3 scytale.py --help`. You can even install more languages, for that take a look [here](http://pythonhosted.org/pyenchant/tutorial.html#adding-language-dictionaries).
+You can check all available codes with `./scytale.py --help`. You can even install more languages, for that take a look [here](http://pythonhosted.org/pyenchant/tutorial.html#adding-language-dictionaries).
 
 If original text _**language is unknown**_ you still can generate all possible transformations, then you will need to check them manually in order to know which is the correct:
 
-**`python3 scytale.py -V -A -t "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot"`**
+**`./scytale.py -V -A -t "DtcTnTi yo oedtoCosaalrl sl ysi evp!sS-ot"`**
 ```
 Text to crack: "Ddlooiaenoes- ls TCs Sor!icoy sylp tt t  avT" (44)
 ...
@@ -369,7 +378,7 @@ Sorry. None of decrypted results seems to be written in language en_US...
 
 In addition, with the extra option `-D` you can check the language validation process:
 
-**`python3 scytale.py -VAD < test`**
+**`./scytale.py -VAD < test`**
 ```
 Text to crack: "Theoohe moi t lsSoCs cor!iyly st p  aft tlrT" (44)
 Testing matrix: 1x44       Testing decrypted text:
@@ -454,7 +463,7 @@ As you can see, it is too easy to crack this classical cryptographic system so i
 
 #### Usage
 
-`python3 vigenere.py --help`
+`./vigenere.py --help`
 ```
 usage: vigenere.py [-h] [-t TEXT] [-k KEY] [--decrypt] [-l LANG] [-V] [-A]
                    [-D] [-T THRESHOLD] [--beep]
@@ -484,16 +493,16 @@ optional arguments:
 
 ###### Encrypt a text and save to a file
 
-**`python3 vigenere.py -t "This is the Vigenere tool from CryptTools!" "CRYPT" > test`**
+**`./vigenere.py -t "This is the Vigenere tool from CryptTools!" "CRYPT" > test`**
 ```
 Vygh bu kft Okxccxtv rdhn wpdf EiwemVfmal!
 ```
 
-`-t` argument is not mandatory, so if you need to encrypt a long text you can skip it, execute `python3 vigenere.py "CRYPT" > test` and then paste your text. When completed press `Return` and then finish the input with `Ctrl+D` so the program will read it.
+`-t` argument is not mandatory, so if you need to encrypt a long text you can skip it, execute `./vigenere.py "CRYPT" > test` and then paste your text. When completed press `Return` and then finish the input with `Ctrl+D` so the program will read it.
 
 ###### Encrypt with extra information
 
-**`python3 vigenere.py -t "This is the Vigenere tool from CryptTools!" "CRYPT" -V`**
+**`./vigenere.py -t "This is the Vigenere tool from CryptTools!" "CRYPT" -V`**
 ```
 Key "CRYPT" shifts: [2, 17, 24, 15, 19]
 Vygh bu kft Okxccxtv rdhn wpdf EiwemVfmal!
@@ -504,7 +513,7 @@ Vygh bu kft Okxccxtv rdhn wpdf EiwemVfmal!
 To decrypt you will need to know the encryption key. In the example above it is _CRYPT_.
 You need to provide the argument `--decrypt` to use the key to decrypt.
 
-**`python3 vigenere.py "CRYPT" --decrypt < test`**
+**`./vigenere.py "CRYPT" --decrypt < test`**
 ```
 This is the Vigenere tool from CryptTools!
 ```
