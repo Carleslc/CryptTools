@@ -13,7 +13,6 @@ import argparse
 
 KEY_LENGTH_THRESHOLD = 100
 TEST_2_MAX_TEXT_LENGTH = 32
-RELATIVE_SHIFT_PRECISION = 4
 
 def set_args():
     global args
