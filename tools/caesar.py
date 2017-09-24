@@ -66,10 +66,10 @@ if __name__ == "__main__":
 
     if args.key is not None:
         if args.verbose:
-            print(f"Original text most frequent character: {most_frequent_char(text)}\n")
+            print(f"Original text most frequent character: {most_frequent_char(clean(text))}\n")
         encrypted = caesar(text, args.key)
         print(encrypted)
         if args.verbose:
-            print(f"\nEncrypted text most frequent character: {most_frequent_char(encrypted)}")
+            print(f"\nEncrypted text most frequent character: {most_frequent_char(clean(encrypted))}")
     else:
         crack(text)
