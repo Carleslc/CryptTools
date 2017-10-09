@@ -38,9 +38,8 @@ def vigenere(text, key):
         nonlocal i
         if char.isalpha():
             shift = shifts[i] if not args.decrypt else MODULE - shifts[i]
-            shifted = shift_by(char, shift)
-            i = i + 1 if i + 1 < key_length else 0
-            return shifted
+            i = (i + 1) % key_length
+            return shift_by(char, shift)
         return char
     return ''.join(map(do_shift, text))
 
