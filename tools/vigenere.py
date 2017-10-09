@@ -29,7 +29,6 @@ def set_args():
     args = parser.parse_args()
 
 def vigenere(text, key):
-    result = ""
     shifts = [ord(k) - ord('a') for k in key.lower()]
     if args.verbose:
         print(f'Key "{key}" shifts: {shifts}')
