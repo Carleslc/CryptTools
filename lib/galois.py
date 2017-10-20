@@ -70,8 +70,8 @@ def wrap(f, **kwargs):
         return f(**kwargs)
     return wrapper
 
-def test_product():
-    for i in range(256):
+def test():
+    def test_product(i):
         for j in range(256):
             tij = GF_product_t(i, j)
             tji = GF_product_t(j, i)
@@ -80,6 +80,15 @@ def test_product():
             assert tij == tji
             assert pij == pji
             assert tij == pij
+
+    def test_invers(i):
+        inv = GF_invers(i)
+        assert (i == 0 and inv == 0) or GF_product_t(i, inv) == 1
+
+    GF_tables()
+    for i in range(256):
+        test_product(i)
+        test_invers(i)
 
 ## OPTIMIZED METHODS
 
@@ -98,17 +107,17 @@ def GF_product_p(a, b):
 
 def GF_product_t(a, b):
     """Performs a * b where a and b are polinomials in its binary representation. Tables version"""
-    return 0 if a == 0 or b == 0 else exp_t[(log_t[a] + log_t[b] + 1) % 255]
+    return 0 if a == 0 or b == 0 else exp_t[(log_t[a] + log_t[b]) % 255]
 
 def GF_tables(generator=0x03):
     """Generates exponential (exp[i] == `generator`**i) and logarithm (log[`generator`**i] == i) tables"""
     global exp_t, log_t
-    exp_t = [generator] * 256
-    log_t = [0] * 256
+    exp_t = [1] * 256
+    log_t = [None] * 256
 
     for i in range(1, 256):
         exp_t[i] = GF_product_p(generator, exp_t[i - 1])
-        log_t[exp_t[i]] = i
+        log_t[exp_t[i]] = i % 255
 
     return (exp_t, log_t)
 
@@ -124,18 +133,15 @@ def GF_generador():
             gen_list.append(gen)
     return gen_list
 
-# FIXME
 def GF_invers(a):
-    return 0 if a == 0 else exp_t[254 - log_t[a]]
+    return 0 if a == 0 else exp_t[255 - log_t[a]]
 
 ## TIMING TESTS
 
 if __name__ == "__main__":
+    test()
     measure_ms(wrap(GF_tables), repetitions=100)
     measure_ms(wrap(GF_product_p, a=0b110, b=0b11))
     measure_ms(wrap(GF_product_t, a=0b110, b=0b11))
     measure_ms(wrap(GF_invers, a=0b110))
     measure_ms(GF_generador, repetitions=50)
-    test_product()
-    print(GF_generador())
-    assert GF_invers(1) == 1
