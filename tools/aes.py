@@ -20,9 +20,9 @@ MODES = {
 def set_args():
     global args
     parser = argparse.ArgumentParser()
-    parser.add_argument("-t", "--text", help="text to read from")
-    parser.add_argument("-in", "--infile", help="file containing the text to read from. \
-        If not specified the program will read from --text argument or standard input as bytes")
+    parser.add_argument("-t", "--text", help="text to read from (by default: standard input bytes). \
+        If text contains non-printable characters (special bytes) then you will need to use --infile and --outfile in order to do the conversion.")
+    parser.add_argument("-in", "--infile", help="file containing the text to read from")
     parser.add_argument("-out", "--outfile", help="file to write the result")
     parser.add_argument("-k", "--key", help="AES key used to encrypt or decrypt")
     parser.add_argument("-kf", "--keyfile", help="file containing the AES key used to encrypt or decrypt")
@@ -84,17 +84,23 @@ if __name__ == "__main__":
             error(args.mode + " is not a valid mode")
         OP_MODE = MODES[args.mode]
 
-    text = read_file(args.infile, binary=True) if args.infile else read(args.text, binary=True)
+    try:
+        text = read_file(args.infile, binary=True) if args.infile else read(args.text, binary=True)
 
-    if args.keyfile is not None:
-        args.key = read_file(args.keyfile, binary=True)
-    key = args.key
-    if key is None:
-        error("Must specify AES key")
-    if not is_valid_key(key):
-        error(key + " (size " + str(len(key) * 8) + " bits) is not a valid AES key")
+        if args.keyfile is not None:
+            args.key = read_file(args.keyfile, binary=True)
+        key = args.key
+        if key is None:
+            error("Must specify AES key")
+        if not is_valid_key(key):
+            error(key + " (size " + str(len(key) * 8) + " bits) is not a valid AES key")
+    except FileNotFoundError as e:
+        error(e)
 
-    result = decrypt(text, key) if args.decrypt else encrypt(text, key)
+    try:
+        result = decrypt(text, key) if args.decrypt else encrypt(text, key)
+    except ValueError as e:
+        error(e)
 
     if args.outfile:
         write(args.outfile, result)

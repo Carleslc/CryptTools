@@ -31,6 +31,12 @@ Tools for encryption, decryption and cracking from several cryptographic systems
           - [Decrypt without knowing the key](#decrypt-without-knowing-the-key-2)
           - [Advanced features](#advanced-features-2)
       - [NOTE](#note-2)
+  - [AES](#aes)
+      - [Usage](#usage-3)
+        - [Examples](#examples-3)
+          - [Encrypt and save to a file](#encrypt-and-save-to-a-file)
+          - [Decrypt with a known key](#decrypt-with-a-known-key-3)
+          - [Advanced features](#advanced-features-3)
 
 ## How to Install
 
@@ -680,3 +686,87 @@ You can also set the permissiveness of the language validation process with the 
 #### NOTE
 
 As you can see the choice of the key is important. In order to have a secure encryption you will need to provide a key of at least the length of the text and it needs to be unique for that text. However, nowadays there are many others cryptographic systems more advanced and useful.
+
+### AES
+
+[--> What is the AES Cipher? <--](https://en.wikipedia.org/wiki/Advanced_Encryption_Standard)
+
+#### Usage
+
+`./aes.py --help`
+```
+usage: aes.py [-h] [-t TEXT] [-in INFILE] [-out OUTFILE] [-k KEY]
+              [-kf KEYFILE] [-m MODE] [--decrypt]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -t TEXT, --text TEXT  text to read from (by default: standard input bytes).
+                        If text contains non-printable characters (special
+                        bytes) then you will need to use --infile and
+                        --outfile in order to do the conversion.
+  -in INFILE, --infile INFILE
+                        file containing the text to read from
+  -out OUTFILE, --outfile OUTFILE
+                        file to write the result
+  -k KEY, --key KEY     AES key used to encrypt or decrypt
+  -kf KEYFILE, --keyfile KEYFILE
+                        file containing the AES key used to encrypt or decrypt
+  -m MODE, --mode MODE  operation mode, by default CBC. Supported: ECB, CBC,
+                        CFB, OFB, OPENPGP
+  --decrypt             use the key to decrypt the text
+```
+
+##### Examples
+
+_This examples uses 128-bit key, but you can also use keys with 192 and 256 bits._
+
+###### Encrypt and save to a file
+
+_For text:_
+
+**`./aes.py -t "This is the AES tool from CryptTools!" -k "Sixteen byte key" -out test.enc`**
+
+Bytes:
+```
+b'\x8f\x88NP\x8e^5&\x95\x92<\x9c\x93s\xa1D;LP\x01\x17\x83@\xeb\x8d\x7fM\xbeZ\xc4\x10\x15\xd8K\xe2\x03O\xa5\x98\xcf\xef\xc0\x1c\x8dg>\xa62,Gx\xb9E\xa7\xe7&r\xedb"\xf7\x05+\x05'
+```
+
+**test.enc** (Contains additional non-printable special bytes):
+```
+Ê¤Ú@UXK*3pIR„$bÄÕó>Žx ·Ïô5S ªm¹ÿ’z>3Xe¿þAÙíê€–ÀR{å!vÕ
+```
+
+`-t` argument is not mandatory, so if you need to encrypt a long text you can skip it and paste your text in standard input. When completed press `Return` and then finish the input with `Ctrl+D` so the program will read it.
+
+_For any file format:_
+In order to encrypt images, binaries and other files you must provide input and output files with `-in` and `-out` parameters.
+
+**`./aes.py -k "Sixteen byte key" -in test -out test.enc`**
+
+###### Decrypt with a known key
+
+Use the `--decrypt` parameter.
+
+**`./aes.py -k "Sixteen byte key" --decrypt -in test.enc -out test`**
+
+**test**:
+```
+This is the AES tool from CryptTools!
+```
+
+###### Advanced features
+
+You can specify a key of 128, 192 or 256 bits which is inside a file:
+
+**`./aes.py --keyfile test.key --decrypt -in test.enc -out test`**
+
+**test.key**:
+```
+Sixteen byte key
+```
+
+You can specify the operation mode used for cipher multiple blocks.
+
+**`./aes.py --keyfile test.key --decrypt -in test.enc -out test -m "ECB"`**
+
+Defaults to **CBC**.
