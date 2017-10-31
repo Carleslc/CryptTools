@@ -731,7 +731,7 @@ Bytes:
 b'\x8f\x88NP\x8e^5&\x95\x92<\x9c\x93s\xa1D;LP\x01\x17\x83@\xeb\x8d\x7fM\xbeZ\xc4\x10\x15\xd8K\xe2\x03O\xa5\x98\xcf\xef\xc0\x1c\x8dg>\xa62,Gx\xb9E\xa7\xe7&r\xedb"\xf7\x05+\x05'
 ```
 
-**test.enc** (Contains additional non-printable special bytes):
+**test.enc**:
 ```
 Ê¤Ú@UXK*3pIR„$bÄÕó>Žx ·Ïô5S ªm¹ÿ’z>3Xe¿þAÙíê€–ÀR{å!vÕ
 ```
