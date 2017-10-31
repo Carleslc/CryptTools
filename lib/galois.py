@@ -23,6 +23,7 @@ def GF_product_p_verbose(a, b):
     print(f'{bin(a)} * {bin(b)}')
     r = 0
     for i in range8:
+        print(f'i: {i}\ta: {bin(a)}\tb: {bin(b)}\tr: {bin(r)} ({hex(r)})')
         if least_bit(b):
             r = add(r, a)
         overflow = highest_bit(a)
@@ -30,7 +31,7 @@ def GF_product_p_verbose(a, b):
         if overflow:
             a = fit(add(a, x8))
         b >>= 1
-        print(f'i: {i}\tb: {hex(b)}\tr: {hex(r)} ({bin(r)})')
+        print(f'i: {i}\ta: {bin(a)}\tb: {bin(b)}\tr: {bin(r)} ({hex(r)})')
     return r
 
 def bit_at(b, i):
@@ -140,6 +141,9 @@ def GF_invers(a):
 
 if __name__ == "__main__":
     test()
+    print(bin(GF_product_p_verbose(0b10000011, 0b01010111)));
+    print(exp_t)
+    print(log_t)
     measure_ms(wrap(GF_tables), repetitions=100)
     measure_ms(wrap(GF_product_p, a=0b110, b=0b11))
     measure_ms(wrap(GF_product_t, a=0b110, b=0b11))

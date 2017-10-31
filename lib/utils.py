@@ -25,12 +25,17 @@ def memoize(f):
             return ret
     return memodict(f)
 
-def read(text=None):
+def read(text=None, binary=False):
     if not text:
-        text = sys.stdin.read()
+        text = sys.stdin.buffer.read() if binary else sys.stdin.read()
         if text[-1] == '\n':
             text = text[:-1]
-    return text
+        return text
+    return str.encode(text) if binary else text
+
+def read_file(file_name, binary=False):
+    mode = 'rb' if binary else 'r'
+    return open(file_name, mode).read()
 
 def clean(text):
     return NON_ALPHABET.sub('', text.lower())
