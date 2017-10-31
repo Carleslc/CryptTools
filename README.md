@@ -705,7 +705,7 @@ optional arguments:
                         bytes) then you will need to use --infile and
                         --outfile in order to do the conversion.
   -in INFILE, --infile INFILE
-                        file containing the text to read from
+                        file to read from
   -out OUTFILE, --outfile OUTFILE
                         file to write the result
   -k KEY, --key KEY     AES key used to encrypt or decrypt
