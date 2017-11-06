@@ -50,27 +50,6 @@ def fit(b):
     """Keeps 8 least significant bits"""
     return b & 0xFF
 
-def measure(f, repetitions=1000):
-    """Measures CPU mean time consumed by f method call repeated `repetitions` times (in fractional seconds)"""
-    elapsed = 0
-    for _ in range(repetitions):
-        start = time.process_time()
-        f()
-        end = time.process_time()
-        elapsed += end - start
-    return elapsed / repetitions
-
-def measure_ms(f, repetitions=1000):
-    """Prints CPU mean time consumed by f method call (in fractional milliseconds)"""
-    return print(f'{f.__name__}:\t{"{:.4f}".format(measure(f, repetitions) * 1000)} ms per call')
-
-def wrap(f, **kwargs):
-    """Returns a function that, when called, executes `f` with `kwargs` parameters"""
-    @wraps(f)
-    def wrapper():
-        return f(**kwargs)
-    return wrapper
-
 def test():
     def test_product(i):
         for j in range(256):
@@ -139,13 +118,75 @@ def GF_invers(a):
 
 ## TIMING TESTS
 
+def measure(f, repetitions=1000):
+    """Measures CPU mean time consumed by f method call repeated `repetitions` times (in fractional seconds)"""
+    elapsed = 0
+    for _ in range(repetitions):
+        start = time.process_time()
+        f()
+        end = time.process_time()
+        elapsed += end - start
+    return elapsed / repetitions
+
+def measure_ms(f, repetitions=500):
+    """Returns CPU mean time consumed by f method call (in fractional milliseconds)"""
+    return measure(f, repetitions) * 1000
+
+def print_ms(name, ms):
+    print(f'{name}:\t{"{:.4f}".format(ms)} ms per call')
+
+def measure_and_print(f, repetitions=500):
+    """Prints CPU mean time consumed by f method call (in fractional milliseconds)"""
+    print_ms(f.__name__, measure_ms(f, repetitions))
+
+def wrap(f, **kwargs):
+    """Returns a function that, when called, executes `f` with `kwargs` parameters"""
+    @wraps(f)
+    def wrapper():
+        return f(**kwargs)
+    return wrapper
+
+def compare_p_t():
+    print("Compare GF_product_p(a, b) vs GF_product_t(a, b) [10 repetitions for each a and b from 0 to 255]")
+    total_ms_p = 0
+    total_ms_t = 0
+    for i in range(256):
+        print("a: " + str(i) + ", Testing all b...")
+        for j in range(256):
+            total_ms_p += measure_ms(wrap(GF_product_p, a=i, b=j), repetitions=10)
+            total_ms_t += measure_ms(wrap(GF_product_t, a=i, b=j), repetitions=10)
+    print_ms("GF_product_p(a, b)", total_ms_p / (256 * 256))
+    print_ms("GF_product_t(a, b)", total_ms_t / (256 * 256))
+    print()
+
+def compare(second):
+    print("Compare GF_product_p(a, " + hex(second) + ") vs GF_product_t(a, " + hex(second) + ") [500 repetitions for each a from 0 to 255]")
+    def measure_compare(first):
+        ms_p = measure_ms(wrap(GF_product_p, a=first, b=second))
+        ms_t = measure_ms(wrap(GF_product_t, a=first, b=second))
+        return ms_p, ms_t
+    total_ms_p = 0
+    total_ms_t = 0
+    for i in range(256):
+        ms_p, ms_t = measure_compare(i)
+        total_ms_p += ms_p
+        total_ms_t += ms_t
+    print_ms("GF_product_p(a, " + hex(second) + ")", total_ms_p / 256)
+    print_ms("GF_product_t(a, " + hex(second) + ")", total_ms_t / 256)
+    print()
+
 if __name__ == "__main__":
     test()
+    print(f'exp_t: {exp_t}')
+    print(f'log_t: {log_t}')
     print(bin(GF_product_p_verbose(0b10000011, 0b01010111)));
-    print(exp_t)
-    print(log_t)
-    measure_ms(wrap(GF_tables), repetitions=100)
-    measure_ms(wrap(GF_product_p, a=0b110, b=0b11))
-    measure_ms(wrap(GF_product_t, a=0b110, b=0b11))
-    measure_ms(wrap(GF_invers, a=0b110))
-    measure_ms(GF_generador, repetitions=50)
+    measure_and_print(wrap(GF_tables), repetitions=100)
+    measure_and_print(wrap(GF_invers, a=0b110))
+    measure_and_print(GF_generador, repetitions=50)
+    compare_p_t()
+    compare(0x02)
+    compare(0x03)
+    compare(0x09)
+    compare(0x0B)
+    compare(0x0D)
+    compare(0x0E)
