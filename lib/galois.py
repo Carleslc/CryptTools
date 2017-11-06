@@ -146,8 +146,22 @@ def wrap(f, **kwargs):
         return f(**kwargs)
     return wrapper
 
+def plot(title, ylabel, values):
+    fig, ax = plt.subplots()
+    xvalues = values.keys()
+    yvalues = values.values()
+    ind = list(map(lambda x: x / 2, range(len(xvalues))))
+    width = 0.25
+    rects = ax.bar(ind, yvalues, width, color='b')
+    ax.set_ylabel(ylabel)
+    ax.set_title(title)
+    ax.set_xticks(ind)
+    ax.set_xticklabels(xvalues)
+    plt.show()
+
 def compare_p_t():
-    print("Compare GF_product_p(a, b) vs GF_product_t(a, b) [10 repetitions for each a and b from 0 to 255]")
+    title = "GF_product_p(a, b) vs GF_product_t(a, b)"
+    print("Compare " + title + " [10 repetitions for each a and b from 0 to 255]")
     total_ms_p = 0
     total_ms_t = 0
     for i in range(256):
@@ -155,12 +169,16 @@ def compare_p_t():
         for j in range(256):
             total_ms_p += measure_ms(wrap(GF_product_p, a=i, b=j), repetitions=10)
             total_ms_t += measure_ms(wrap(GF_product_t, a=i, b=j), repetitions=10)
-    print_ms("GF_product_p(a, b)", total_ms_p / (256 * 256))
-    print_ms("GF_product_t(a, b)", total_ms_t / (256 * 256))
+    total_ms_p /= 256 * 256
+    total_ms_t /=  256 * 256
+    print_ms("GF_product_p(a, b)", total_ms_p)
+    print_ms("GF_product_t(a, b)", total_ms_t)
+    #plot(title, 'Time per call (ms)', { 'GF_product_p': total_ms_p, 'GF_product_t':  total_ms_t })
     print()
 
 def compare(second):
-    print("Compare GF_product_p(a, " + hex(second) + ") vs GF_product_t(a, " + hex(second) + ") [500 repetitions for each a from 0 to 255]")
+    title = "GF_product_p(a, " + hex(second) + ") vs GF_product_t(a, " + hex(second) + ")"
+    print("Compare " + title + " [500 repetitions for each a from 0 to 255]")
     def measure_compare(first):
         ms_p = measure_ms(wrap(GF_product_p, a=first, b=second))
         ms_t = measure_ms(wrap(GF_product_t, a=first, b=second))
@@ -171,8 +189,11 @@ def compare(second):
         ms_p, ms_t = measure_compare(i)
         total_ms_p += ms_p
         total_ms_t += ms_t
-    print_ms("GF_product_p(a, " + hex(second) + ")", total_ms_p / 256)
-    print_ms("GF_product_t(a, " + hex(second) + ")", total_ms_t / 256)
+    total_ms_p /= 256
+    total_ms_t /=  256
+    print_ms("GF_product_p(a, " + hex(second) + ")", total_ms_p)
+    print_ms("GF_product_t(a, " + hex(second) + ")", total_ms_t)
+    #plot(title, 'Time per call (ms)', { 'GF_product_p': total_ms_p, 'GF_product_t':  total_ms_t })
     print()
 
 if __name__ == "__main__":
