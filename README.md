@@ -2,6 +2,8 @@
 
 Tools for encryption, decryption and cracking from several cryptographic systems.
 
+🇪🇸 Obtén información sobre la criptografía clásica y este proyecto en [este artículo](https://blog.carleslc.me/seguridad%20inform%C3%A1tica/criptografia-clasica-con-python/).
+
 - [How to Install](#how-to-install)
 - [Tools available](#tools-available)
   - [Caesar](#caesar)
