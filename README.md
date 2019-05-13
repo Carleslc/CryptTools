@@ -4,7 +4,7 @@ Tools for encryption, decryption and cracking from several cryptographic systems
 
 🇪🇸 Obtén información sobre la criptografía clásica y este proyecto en [este artículo](https://blog.carleslc.me/seguridad%20inform%C3%A1tica/criptografia-clasica-con-python/).
 
-[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C2VFGD)
+[![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/carleslc)
 
 - [How to Install](#how-to-install)
 - [Tools available](#tools-available)
